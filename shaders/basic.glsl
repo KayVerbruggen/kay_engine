@@ -59,7 +59,7 @@ void main()
     vec3 diffuse = diff * dir_light.base.color * dir_light.base.intensity;
 
     // Specular
-    float specular_strength = 0.7;
+    float specular_strength = 0.3;
     vec3 view_dir = normalize(view_pos - position);
     vec3 reflect_dir = reflect(-dir_light.direction, n);
     float spec = pow(max(dot(view_dir, reflect_dir), 0.0), 32);
