@@ -41,7 +41,7 @@ int main()
     set_uniform(shader, "projection", projection);
 
     // Create a sun and set it as a uniform.
-    Directional_Light sun(vec3(0.0f, 2.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f), 1.0f, vec3(1.0f, 0.0f, 0.0f));
+    Directional_Light sun(vec3(0.0f, 2.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f), 1.0f, vec3(1.0f, 1.0f, 0.0f));
     set_uniform(shader, "dir_light", sun);
 
     // Run this loop until the window is closed.
