@@ -25,3 +25,5 @@ void set_uniform(unsigned int shader, std::string name, mat4 m1);
 void set_uniform(unsigned int shader, std::string name, Directional_Light dl);
 
 void set_uniform(unsigned int shader, std::string name, Point_Light pl);
+
+void set_uniform(unsigned int shader, std::string name, Spot_Light sl);

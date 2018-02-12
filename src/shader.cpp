@@ -190,3 +190,19 @@ void set_uniform(unsigned int shader, std::string name, Point_Light pl)
     set_uniform(shader, name + ".linear", pl.linear);
     set_uniform(shader, name + ".quadratic", pl.quadratic);
 }
+
+void set_uniform(unsigned int shader, std::string name, Spot_Light sl)
+{
+    set_uniform(shader, name + ".base.pos", sl.pos);
+    set_uniform(shader, name + ".direction", sl.direction);
+    set_uniform(shader, name + ".base.intensity", sl.intensity);
+
+    set_uniform(shader, name + ".base.ambient", sl.ambient);
+    set_uniform(shader, name + ".base.diffuse", sl.diffuse);
+    set_uniform(shader, name + ".base.specular", sl.specular);
+
+    set_uniform(shader, name + ".constant", sl.constant);
+    set_uniform(shader, name + ".linear", sl.linear);
+    set_uniform(shader, name + ".quadratic", sl.quadratic);
+    set_uniform(shader, name + ".cutoff", sl.cutoff);
+}

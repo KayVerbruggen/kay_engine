@@ -31,25 +31,29 @@ struct Directional_Light : public Base_Light
 // does matter with this type.
 struct Point_Light : public Base_Light
 {
-    float constant;
+    float constant = 1.0f;
     float linear;
     float quadratic;
 
-    Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, float in_constant, 
+    Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, 
                 float in_linear, float in_quadratic);
 
-    Point_Light(vec3 in_pos, float in_intensity, float in_constant, float in_linear, float in_quadratic);
+    Point_Light(vec3 in_pos, float in_intensity, float in_linear, float in_quadratic);
 };
 
-/*
 struct Spot_Light : public Base_Light
 {
     vec3 direction;
 
     float constant;
-    float linear;
+    float linear = 1.0f;
     float quadratic;
 
     float cutoff;
+
+    Spot_Light(vec3 in_pos, vec3 in_dir, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, 
+                float in_linear, float in_quadratic, float cutoff);
+
+    Spot_Light(vec3 in_pos, vec3 in_dir, float in_intensity, float in_linear, float in_quadratic, 
+                float cutoff);
 };
-*/

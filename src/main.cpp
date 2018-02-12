@@ -41,8 +41,8 @@ int main()
     projection = perspective_lh(to_radians(45.0f), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 1000.0f);
     set_uniform(shader, "projection", projection);
 
-    Point_Light pl(vec3(1.0f, 0.0f, -2.0f), 3.0f, 1.0f, 0.09f, 0.32f);
-    set_uniform(shader, "point", pl);
+    Spot_Light sl(vec3(0.0f, 0.0f, -1.5f), vec3(0.0f, 0.0f, 1.0f), 0.5f, 0.09f, 0.32f, cos(to_radians(20.0f)));
+    set_uniform(shader, "spot", sl);
 
     // Run this loop until the window is closed.
     while (is_window_open())
@@ -53,7 +53,7 @@ int main()
 
         begin_frame();
 
-        model = rotate(model, glfwGetTime() * to_radians(45.0f), vec3(0.5f, 1.0f, 0.0f));
+        //model = rotate(model, glfwGetTime() * to_radians(45.0f), vec3(0.5f, 1.0f, 0.0f));
         
         set_uniform(shader, "model", model);
         set_uniform(shader, "view", camera_list[active_camera].view);

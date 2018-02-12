@@ -22,8 +22,7 @@ Directional_Light::Directional_Light(float light_intensity, vec3 dir)
     direction = dir;
 }
 
-Point_Light::Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, 
-                            float in_constant, float in_linear, float in_quadratic)
+Point_Light::Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, float in_linear, float in_quadratic)
 {
     pos = in_pos;
 
@@ -32,17 +31,41 @@ Point_Light::Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_
     specular = in_specular;
 
     intensity = in_intensity;
-    constant = in_constant;
     linear = in_linear;
     quadratic = in_quadratic;
 }
 
-Point_Light::Point_Light(vec3 in_pos, float in_intensity, float in_constant, float in_linear, float in_quadratic)
+Point_Light::Point_Light(vec3 in_pos, float in_intensity, float in_linear, float in_quadratic)
 {
     pos = in_pos;
 
     intensity = in_intensity;
-    constant = in_constant;
     linear = in_linear;
     quadratic = in_quadratic;
+}
+
+Spot_Light::Spot_Light(vec3 in_pos, vec3 in_dir, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, float in_linear, float in_quadratic, float in_cutoff)
+{
+    pos = in_pos;
+    direction = in_dir;
+
+    ambient = in_ambient;
+    diffuse = in_diffuse;
+    specular = in_specular;
+
+    intensity = in_intensity;
+    linear = in_linear;
+    quadratic = in_quadratic;
+    cutoff = in_cutoff;
+}
+
+Spot_Light::Spot_Light(vec3 in_pos, vec3 in_dir, float in_intensity, float in_linear, float in_quadratic, float in_cutoff)
+{
+    pos = in_pos;
+    direction = in_dir;
+
+    intensity = in_intensity;
+    linear = in_linear;
+    quadratic = in_quadratic;
+    cutoff = in_cutoff;
 }
