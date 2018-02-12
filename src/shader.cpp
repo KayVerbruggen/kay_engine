@@ -170,3 +170,17 @@ void set_uniform(unsigned shader, std::string name, Directional_Light dl)
     set_uniform(shader, name + ".base.intensity", dl.intensity);
     set_uniform(shader, name + ".base.pos", dl.pos);
 }
+
+void set_uniform(unsigned int shader, std::string name, Point_Light pl)
+{
+    set_uniform(shader, name + ".base.pos", pl.pos);
+    set_uniform(shader, name + ".base.intensity", pl.intensity);
+
+    set_uniform(shader, name + ".base.ambient", pl.ambient);
+    set_uniform(shader, name + ".base.diffuse", pl.diffuse);
+    set_uniform(shader, name + ".base.specular", pl.specular);
+
+    set_uniform(shader, name + ".constant", pl.constant);
+    set_uniform(shader, name + ".linear", pl.linear);
+    set_uniform(shader, name + ".quadratic", pl.quadratic);
+}

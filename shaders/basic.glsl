@@ -46,8 +46,17 @@ struct Directional_Light
     vec3 direction;
 };
 
+struct Point_Light
+{
+    Base_Light base;
+    
+    float constant;
+    float linear;
+    float quadratic;
+};
+
 uniform sampler2D texture_sampler;
-uniform Directional_Light dir_light;
+uniform Point_Light point;
 uniform vec3 view_pos;
 
 vec4 calc_dir_light(Directional_Light dl)
@@ -63,7 +72,7 @@ vec4 calc_dir_light(Directional_Light dl)
     vec3 diffuse = diff * dl.base.diffuse * dl.base.intensity;
 
     // Specular
-    float specular_strength = 0.3;
+    float specular_strength = 0.7;
     vec3 view_dir = normalize(view_pos - position);
     vec3 reflect_dir = reflect(dl.direction, n);
     float spec = pow(max(dot(view_dir, reflect_dir), 0.0), 32);
@@ -72,7 +81,39 @@ vec4 calc_dir_light(Directional_Light dl)
     return diffuse_color * vec4(ambient + diffuse + specular, 1.0);
 }
 
+vec4 calc_point_light(Point_Light pl)
+{
+    // Ambient
+    float ambient_strength = 0.1;
+    vec3 ambient = ambient_strength * pl.base.ambient;
+
+    // Diffuse
+    vec4 diffuse_color = texture(texture_sampler, tex_coord);
+    vec3 n = normalize(normal);
+    vec3 light_dir = normalize(pl.base.pos - position);
+    float diff = max(dot(n, light_dir), 0.0);
+    vec3 diffuse = diff * pl.base.diffuse * pl.base.intensity;
+
+    // Specular
+    float specular_strength = 0.7;
+    vec3 view_dir = normalize(view_pos - position);
+    vec3 reflect_dir = reflect(light_dir, n);
+    float spec = pow(max(dot(view_dir, reflect_dir), 0.0), 32);
+    vec3 specular = specular_strength * spec * pl.base.specular;
+
+    // Attenuation
+    float dist = length(pl.base.pos - position);
+    float attenuation = 1.0 / (pl.constant + pl.linear * dist + pl. quadratic * (dist*dist));
+
+    // Apply the attenuation.
+    ambient *= attenuation;
+    diffuse *= attenuation;
+    specular *= attenuation;
+
+    return diffuse_color * vec4(ambient + diffuse + specular, 1.0);
+}
+
 void main()
 {
-    color = calc_dir_light(dir_light);
+    color = calc_point_light(point);
 }
