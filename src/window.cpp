@@ -6,6 +6,9 @@ GLFWwindow *window;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+    // TODO: The projection matrix should change too. Because the aspect ratio
+    // might not be correct after resizing.
+
     // Change the viewport to use the new width and height from the window.
     glViewport(0, 0, width, height);
 }

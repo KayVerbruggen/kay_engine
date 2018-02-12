@@ -162,7 +162,11 @@ void set_uniform(unsigned int shader, std::string name, mat4 m1)
 void set_uniform(unsigned shader, std::string name, Directional_Light dl)
 {
     set_uniform(shader, name + ".direction", dl.direction);
-    set_uniform(shader, name + ".base.color", dl.color);
+
+    set_uniform(shader, name + ".base.ambient", dl.ambient);
+    set_uniform(shader, name + ".base.diffuse", dl.diffuse);
+    set_uniform(shader, name + ".base.specular", dl.specular);
+
     set_uniform(shader, name + ".base.intensity", dl.intensity);
     set_uniform(shader, name + ".base.pos", dl.pos);
 }
