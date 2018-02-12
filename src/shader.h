@@ -4,13 +4,9 @@
 #include "math.h"
 #include "light.h"
 
-struct Shader_Sources;
-
-unsigned int compile_shader(unsigned int type, const char* source);
-
-Shader_Sources read_shader(const std::string& shader_file);
-
 unsigned int create_shader(const std::string& shader_file);
+
+void set_uniform(unsigned int shader, std::string name, bool boolean);
 
 void set_uniform(unsigned int shader, std::string name, float value);
 

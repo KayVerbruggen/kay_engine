@@ -117,6 +117,12 @@ unsigned int create_shader(const std::string& shader_file)
     return shader_program;
 }
 
+void set_uniform(unsigned int shader, std::string name, bool boolean)
+{
+    int location = glGetUniformLocation(shader, name.c_str());
+    glUniform1i(location, boolean);
+}
+
 void set_uniform(unsigned int shader, std::string name, float value)
 {
     int location = glGetUniformLocation(shader, name.c_str());
