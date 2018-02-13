@@ -34,7 +34,6 @@ int main()
 
     // Create a camera, more cameras can be created.
     create_camera(vec3(0.0f, 0.0f, -5.0f));
-    create_camera(vec3(1.0f, 0.0f, -3.0f));
 
     // Create a perspective projection.
     mat4 projection;
@@ -53,7 +52,7 @@ int main()
 
         begin_frame();
 
-        //model = rotate(model, glfwGetTime() * to_radians(45.0f), vec3(0.5f, 1.0f, 0.0f));
+        model = rotate(model, glfwGetTime() * to_radians(45.0f), vec3(0.5f, 1.0f, 0.0f));
         
         set_uniform(shader, "model", model);
         set_uniform(shader, "view", camera_list[active_camera].view);
