@@ -1,6 +1,6 @@
 #include "texture.h"
 
-#include <glad\glad.h>
+#include <glad.h>
 #include "stb_image.h"
 
 unsigned int create_texture(const char* texture_file)
