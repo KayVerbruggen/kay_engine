@@ -6,16 +6,8 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g -Werror -Wall -Wclobbered -Wempty-body -Wignored-qualifiers -Wmissing-field-initializers -Wtype-limits -Wuninitialized -Wshift-negative-value",
-                "${workspaceFolder}/src/*.cpp ${workspaceFolder}/src/*.c",
-                "-I ${workspaceFolder}/dependencies/includes",
-                "-L ${workspaceFolder}/dependencies/lib",
-                "-lglfw3 -lgdi32",
-                "-D GLFW_INCLUDE_NONE",
-                "-o ${workspaceFolder}/build/demo"
-            ],
+            "command": "nmake",
+            "args": [],
             "group": {
                 "kind": "build",
                 "isDefault": true

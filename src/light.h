@@ -32,28 +32,27 @@ struct Directional_Light : public Base_Light
 struct Point_Light : public Base_Light
 {
     float constant = 1.0f;
-    float linear;
-    float quadratic;
+    float linear = 0.09f;
+    float quadratic = 0.32f;
 
-    Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, 
-                float in_linear, float in_quadratic);
+    Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity);
 
-    Point_Light(vec3 in_pos, float in_intensity, float in_linear, float in_quadratic);
+    Point_Light(vec3 in_pos, float in_intensity);
 };
 
 struct Spot_Light : public Base_Light
 {
     vec3 direction;
 
-    float constant;
-    float linear = 1.0f;
-    float quadratic;
+    float constant = 1.0f;
+    float linear = 0.09f;
+    float quadratic = 0.032f;
 
-    float cutoff;
+    float inner_cutoff;
+    float outer_cutoff;
 
     Spot_Light(vec3 in_pos, vec3 in_dir, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, 
-                float in_linear, float in_quadratic, float cutoff);
+               float inner_cutoff, float outer_cutoff);
 
-    Spot_Light(vec3 in_pos, vec3 in_dir, float in_intensity, float in_linear, float in_quadratic, 
-                float cutoff);
+    Spot_Light(vec3 in_pos, vec3 in_dir, float in_intensity, float inner_cutoff, float outer_cutoff);
 };

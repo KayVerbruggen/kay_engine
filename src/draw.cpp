@@ -27,3 +27,21 @@ void draw_model(Model model)
     // Make a draw call.
     glDrawElements(GL_TRIANGLES, model.mesh.index_count, GL_UNSIGNED_INT, nullptr);
 }
+
+void draw_scene(std::vector<Entity*> entities, unsigned int shader)
+{
+    for(unsigned int i = 0; i < entities.size(); i++)
+    {
+        // Set the model matrix for every model. This allows us to rotate them indepedently.
+        set_uniform(shader, "model", entities[i]->matrix);
+
+        // Set the texture.
+        glBindTexture(GL_TEXTURE_2D, entities[i]->texture_id);
+
+        // Bind the buffers.
+        glBindVertexArray(entities[i]->mesh.vao);
+
+        // Make a draw call.
+        glDrawElements(GL_TRIANGLES, entities[i]->mesh.index_count, GL_UNSIGNED_INT, nullptr);
+    }
+}

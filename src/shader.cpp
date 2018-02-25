@@ -204,5 +204,6 @@ void set_uniform(unsigned int shader, std::string name, Spot_Light sl)
     set_uniform(shader, name + ".constant", sl.constant);
     set_uniform(shader, name + ".linear", sl.linear);
     set_uniform(shader, name + ".quadratic", sl.quadratic);
-    set_uniform(shader, name + ".cutoff", sl.cutoff);
+    set_uniform(shader, name + ".inner_cutoff", sl.inner_cutoff);
+    set_uniform(shader, name + ".outer_cutoff", sl.outer_cutoff);
 }

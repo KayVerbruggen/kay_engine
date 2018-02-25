@@ -8,6 +8,7 @@
 #include "camera.h"
 #include "config.h"
 #include "light.h"
+#include "entity.h"
 
 // TODO: Have a place to properly save settings like the resolutions, and if v-sync is enabled etc.
 // Maybe something like a config.h header file. Or even a text file that we would read, but that would
@@ -25,12 +26,10 @@ int main()
     unsigned int shader = create_shader("../shaders/basic.glsl");
 
     // TODO: Let this read an OBJ file.
-    Model texture_quad("", "../res/grass.png");
+    Entity cube("", "../res/grass.png", vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, to_radians(45.0f), 0.0f), vec3(1.0f, 1.0f, 1.0f));
 
-    // This matrix wil save rotation, translation and scale of a model.
-    mat4 model;
-    model = translate(model, vec3(0.0f, 0.0f, 0.0f));
-    model = rotate(model, to_radians(0.0f), vec3(0.0f, 1.0f, 0.0f));
+    std::vector<Entity*> entities;
+    entities.push_back(&cube);
 
     // Create a camera, more cameras can be created.
     create_camera(vec3(0.0f, 0.0f, -5.0f));
@@ -40,7 +39,7 @@ int main()
     projection = perspective_lh(to_radians(45.0f), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 1000.0f);
     set_uniform(shader, "projection", projection);
 
-    Spot_Light sl(vec3(0.0f, 0.0f, -1.5f), vec3(0.0f, 0.0f, 1.0f), 0.5f, 0.09f, 0.32f, cos(to_radians(20.0f)));
+    Spot_Light sl(vec3(0.0f, 0.0f, -1.5f), vec3(0.0f, 0.0f, 1.0f), 5.0f, 12.5f, 20.0f);
     set_uniform(shader, "spot", sl);
 
     // Run this loop until the window is closed.
@@ -51,13 +50,14 @@ int main()
         update_camera();
 
         begin_frame();
-
-        model = rotate(model, glfwGetTime() * to_radians(45.0f), vec3(0.5f, 1.0f, 0.0f));
         
-        set_uniform(shader, "model", model);
+        cube.rotation.y += to_radians(delta_time * 5);
+        cube.matrix = rotate(cube.matrix, cube.rotation.y, vec3(0.0f, 1.0f, 0.0f));
+
         set_uniform(shader, "view", camera_list[active_camera].view);
         set_uniform(shader, "view_pos", camera_list[active_camera].position);
-        draw_model(texture_quad);
+
+        draw_scene(entities, shader);
 
         update_window();
     }

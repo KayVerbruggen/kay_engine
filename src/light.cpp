@@ -22,7 +22,7 @@ Directional_Light::Directional_Light(float light_intensity, vec3 dir)
     direction = dir;
 }
 
-Point_Light::Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, float in_linear, float in_quadratic)
+Point_Light::Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity)
 {
     pos = in_pos;
 
@@ -31,20 +31,16 @@ Point_Light::Point_Light(vec3 in_pos, vec3 in_ambient, vec3 in_diffuse, vec3 in_
     specular = in_specular;
 
     intensity = in_intensity;
-    linear = in_linear;
-    quadratic = in_quadratic;
 }
 
-Point_Light::Point_Light(vec3 in_pos, float in_intensity, float in_linear, float in_quadratic)
+Point_Light::Point_Light(vec3 in_pos, float in_intensity)
 {
     pos = in_pos;
 
     intensity = in_intensity;
-    linear = in_linear;
-    quadratic = in_quadratic;
 }
 
-Spot_Light::Spot_Light(vec3 in_pos, vec3 in_dir, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, float in_linear, float in_quadratic, float in_cutoff)
+Spot_Light::Spot_Light(vec3 in_pos, vec3 in_dir, vec3 in_ambient, vec3 in_diffuse, vec3 in_specular, float in_intensity, float in_inner_cutoff, float in_outer_cutoff)
 {
     pos = in_pos;
     direction = in_dir;
@@ -54,18 +50,16 @@ Spot_Light::Spot_Light(vec3 in_pos, vec3 in_dir, vec3 in_ambient, vec3 in_diffus
     specular = in_specular;
 
     intensity = in_intensity;
-    linear = in_linear;
-    quadratic = in_quadratic;
-    cutoff = in_cutoff;
+    inner_cutoff = cos(to_radians(in_inner_cutoff));
+    outer_cutoff = cos(to_radians(in_outer_cutoff));
 }
 
-Spot_Light::Spot_Light(vec3 in_pos, vec3 in_dir, float in_intensity, float in_linear, float in_quadratic, float in_cutoff)
+Spot_Light::Spot_Light(vec3 in_pos, vec3 in_dir, float in_intensity, float in_inner_cutoff, float in_outer_cutoff)
 {
     pos = in_pos;
     direction = in_dir;
 
     intensity = in_intensity;
-    linear = in_linear;
-    quadratic = in_quadratic;
-    cutoff = in_cutoff;
+    inner_cutoff = cos(to_radians(in_inner_cutoff));
+    outer_cutoff = cos(to_radians(in_outer_cutoff));
 }

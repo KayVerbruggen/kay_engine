@@ -63,7 +63,9 @@ struct Spot_Light
     float constant;
     float linear;
     float quadratic;
-    float cutoff;
+
+    float inner_cutoff;
+    float outer_cutoff;
 };
 
 uniform sampler2D texture_sampler;
@@ -72,10 +74,6 @@ uniform vec3 view_pos;
 
 vec4 calc_dir_light(Directional_Light dl)
 {
-    // Ambient
-    float ambient_strength = 0.1;
-    vec3 ambient = ambient_strength * dl.base.ambient;
-
     // Diffuse
     vec4 diffuse_color = texture(texture_sampler, tex_coord);
     vec3 n = normalize(normal); 
@@ -89,15 +87,11 @@ vec4 calc_dir_light(Directional_Light dl)
     float spec = pow(max(dot(view_dir, reflect_dir), 0.0), 32);
     vec3 specular = specular_strength * spec * dl.base.specular;
 
-    return diffuse_color * vec4(ambient + diffuse + specular, 1.0);
+    return diffuse_color * vec4(diffuse + specular, 1.0);
 }
 
 vec4 calc_point_light(Point_Light pl)
 {
-    // Ambient
-    float ambient_strength = 0.1;
-    vec3 ambient = ambient_strength * pl.base.ambient;
-
     // Diffuse
     vec4 diffuse_color = texture(texture_sampler, tex_coord);
     vec3 n = normalize(normal);
@@ -114,14 +108,13 @@ vec4 calc_point_light(Point_Light pl)
 
     // Attenuation
     float dist = length(pl.base.pos - position);
-    float attenuation = 1.0 / (pl.constant + pl.linear * dist + pl. quadratic * (dist*dist));
+    float attenuation = 1.0 / (pl.constant + pl.linear * dist + pl.quadratic * (dist*dist));
 
     // Apply the attenuation.
-    ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
 
-    return diffuse_color * vec4(ambient + diffuse + specular, 1.0);
+    return diffuse_color * vec4(diffuse + specular, 1.0);
 }
 
 vec4 calc_spot_light(Spot_Light sl)
@@ -129,12 +122,8 @@ vec4 calc_spot_light(Spot_Light sl)
     vec3 dir = normalize(sl.base.pos - position);
     // Check if it is within the maximum range(aka cutoff).
     float theta = dot(dir, normalize(-sl.direction));
-    if(theta > sl.cutoff)
+    if(theta > sl.outer_cutoff)
     {
-        // Ambient
-        float ambient_strength = 0.1;
-        vec3 ambient = ambient_strength * sl.base.ambient;
-
         // Diffuse
         vec4 diffuse_color = texture(texture_sampler, tex_coord);
         vec3 n = normalize(normal);
@@ -156,7 +145,16 @@ vec4 calc_spot_light(Spot_Light sl)
         diffuse *= attenuation;
         specular *= attenuation;
 
-        return diffuse_color * vec4(ambient + diffuse + specular, 1.0);
+        // Make the light fade out towards the outer cutoff.
+        float theta = dot(dir, normalize(-sl.direction));
+        float epsilon = sl.inner_cutoff - sl.outer_cutoff;
+        float intensity = clamp((theta - sl.outer_cutoff) / epsilon, 0.0, 1.0);
+
+        // Apply the fade.
+        diffuse *= intensity;
+        specular *= intensity;
+
+        return diffuse_color * vec4(diffuse + specular, 1.0);
     }
     else
     {
@@ -168,6 +166,10 @@ vec4 calc_spot_light(Spot_Light sl)
 }
 
 void main()
-{
-    color = calc_spot_light(spot);
+{    
+    // Ambient
+    float ambient_strength = 0.1;
+    vec3 ambient = vec3(1.0, 1.0, 1.0) * ambient_strength;
+
+    color = vec4(ambient.xyz, 1.0) * calc_spot_light(spot);
 }
