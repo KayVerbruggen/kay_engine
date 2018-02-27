@@ -11,6 +11,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
     // Change the viewport to use the new width and height from the window.
     glViewport(0, 0, width, height);
+    
+    // Update the width and height from the config file, so the projection matrix
+    // can change accordingly.
+    WINDOW_WIDTH = width;
+    WINDOW_HEIGHT = height;
 }
 
 bool create_window()
