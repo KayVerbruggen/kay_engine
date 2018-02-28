@@ -32,8 +32,7 @@ int main()
     entities.push_back(&cube);
 
     // Create a camera, more cameras can be created.
-    create_camera(vec3(0.0f, 0.0f, -5.0f));
-
+    create_camera(vec3(0.0f, 0.0f, -5.0f), 45.0f);
 
     Spot_Light sl(vec3(0.0f, 0.0f, -1.5f), vec3(0.0f, 0.0f, 1.0f), 5.0f, 12.5f, 20.0f);
     set_uniform(shader, "spot", sl);
@@ -47,14 +46,12 @@ int main()
 
         begin_frame();
         
+        // A rotating cube, just to have something to look at.
         cube.rotation.y += to_radians(delta_time * 15);
         cube.matrix = rotate(cube.matrix, cube.rotation.y, vec3(0.0f, 1.0f, 0.0f));
 
-        // Create a perspective projection.
-        mat4 projection;
-        projection = perspective_lh(to_radians(45.0f), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 1000.0f);
-        set_uniform(shader, "projection", projection);
-
+        // Set all of the uniforms.
+        set_uniform(shader, "projection", camera_list[active_camera].projection);
         set_uniform(shader, "view", camera_list[active_camera].view);
         set_uniform(shader, "view_pos", camera_list[active_camera].position);
 

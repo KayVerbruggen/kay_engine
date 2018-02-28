@@ -1,9 +1,10 @@
 #include "camera.h"
+#include "config.h"
 
 unsigned int active_camera = 0;
 std::vector<Camera> camera_list;
 
-void create_camera(vec3 pos)
+void create_camera(vec3 pos, float in_fov)
 {
     Camera cam;
 
@@ -16,6 +17,9 @@ void create_camera(vec3 pos)
 
     cam.view = look_at(cam.right, cam.up, cam.direction, cam.position);
     //math_print(cam.view);
+
+    cam.fov = in_fov;
+    cam.projection = perspective_lh(to_radians(in_fov), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 1000.0f);
     
     camera_list.push_back(cam);
 }

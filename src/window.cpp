@@ -1,5 +1,6 @@
 #include "window.h"
 #include "config.h"
+#include "camera.h"
 
 const char* window_title = "Test Window";
 GLFWwindow *window;
@@ -16,6 +17,10 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // can change accordingly.
     WINDOW_WIDTH = width;
     WINDOW_HEIGHT = height;
+
+    // Only update projection, when it actually changed.
+    camera_list[active_camera].projection = perspective_lh(to_radians(camera_list[active_camera].fov),                                                                              WINDOW_WIDTH/WINDOW_HEIGHT, 
+                                                            0.1f, 1000.0f);
 }
 
 bool create_window()
